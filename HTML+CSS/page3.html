@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pick a Date ♡</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Hand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            font-family: "Edu QLD Hand", cursive;
+            color: #5b2a86;
+
+            background-image: url("palepurple.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            text-align: center;
+            padding: 35px;
+            width: min(90%, 500px);
+        }
+
+        h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 23px;
+            margin: 10px 0;
+        }
+
+        #selectedPlace {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 15px 0 30px;
+        }
+
+        input[type="date"] {
+            font-family: "Edu QLD Hand", cursive;
+            font-size: 20px;
+            color: #5b2a86;
+
+            padding: 10px 15px;
+            border: 2px solid #9b6dcc;
+            border-radius: 12px;
+
+            background: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+        }
+
+        button {
+            display: block;
+            margin: 25px auto 0;
+
+            padding: 10px 25px;
+
+            border: none;
+            border-radius: 12px;
+
+            background: #8e5bb7;
+            color: white;
+
+            font-family: "Edu QLD Hand", cursive;
+            font-size: 21px;
+
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background: #73449a;
+        }
+
+        #message {
+            display: none;
+        }
+
+        #error {
+            color: #9b2c2c;
+            font-size: 18px;
+            margin-top: 15px;
+        }
+
+        .fish {
+            font-size: 25px;
+            margin-top: 20px;
+            letter-spacing: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div id="datePage">
+
+            <h1>♡ pick a date ♡</h1>
+
+            <p>you chose:</p>
+
+            <div id="selectedPlace"></div>
+
+            <p>when should we go?</p>
+
+            <input type="date" id="datePicker" min="2026-11-05">
+
+            <button id="confirmDate">♡ confirm date ♡</button>
+
+            <div id="error"></div>
+
+        </div>
+
+
+        <div id="message">
+
+            <h1>♡ it's a date! ♡</h1>
+
+            <p id="finalPlace"></p>
+
+            <p id="finalDate"></p>
+
+            <p>can't wait ♡</p>
+
+            <div class="fish">
+                𓆝 𓆟 𓆞
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- EmailJS -->
+    <script
+        type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+
+
+    <script>
+
+        // Your EmailJS details
+        const PUBLIC_KEY = "eI3en2RLeLgamRDqp";
+        const SERVICE_ID = "service_wytmzli";
+        const TEMPLATE_ID = "template_ebgkkls";
+
+
+        // Start EmailJS
+        emailjs.init({
+            publicKey: PUBLIC_KEY
+        });
+
+
+        // Get the place chosen on page 2
+        const params = new URLSearchParams(window.location.search);
+        const place = params.get("place");
+
+
+        // Show selected place
+        document.getElementById("selectedPlace").textContent =
+            place || "somewhere cute ♡";
+
+
+        // Confirm date button
+        document.getElementById("confirmDate").addEventListener("click", function () {
+
+            const datePicker = document.getElementById("datePicker");
+            const selectedDate = datePicker.value;
+            const error = document.getElementById("error");
+
+            // Make sure a date was selected
+            if (!selectedDate) {
+                error.textContent = "♡ please pick a date first ♡";
+                return;
+            }
+
+            error.textContent = "";
+
+            // Convert date into a nicer format
+            const dateObject = new Date(selectedDate + "T00:00:00");
+
+            const formattedDate = dateObject.toLocaleDateString("en-GB", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            });
+
+
+            // Send the email
+            emailjs.send(
+                SERVICE_ID,
+                TEMPLATE_ID,
+                {
+                    place: place || "somewhere cute ♡",
+                    date: formattedDate
+                }
+            )
+
+            .then(function () {
+
+                // Hide date selection
+                document.getElementById("datePage").style.display = "none";
+
+                // Show final message
+                document.getElementById("finalPlace").textContent =
+                    place || "somewhere cute ♡";
+
+                document.getElementById("finalDate").textContent =
+                    formattedDate;
+
+                document.getElementById("message").style.display = "block";
+
+            })
+
+            .catch(function (error) {
+
+                console.error("EmailJS error:", error);
+
+                error = document.getElementById("error");
+
+                error.textContent =
+                    "♡ something went wrong sending the date — please try again ♡";
+
+            });
+
+        });
+
+    </script>
+
+</body>
+</html>
+

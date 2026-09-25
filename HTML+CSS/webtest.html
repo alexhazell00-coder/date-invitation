@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Edu+QLD+Hand:wght@400..700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            background-image: url("palepurple.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+
+            font-family: 'Edu QLD Hand', cursive;
+            color: #581c87;
+        }
+
+        /* Question */
+        #question {
+            margin: 0 0 25px 0;
+            padding: 0 20px;
+
+            font-size: 28px;
+            text-align: center;
+
+            color: #581c87;
+
+            text-shadow:
+                1px 1px white,
+                -1px -1px white,
+                1px -1px white,
+                -1px 1px white;
+
+            transition: 0.3s;
+        }
+
+        /* Buttons */
+        .buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        /* YES */
+        #button1 {
+            background-color: #c084fc;
+            color: #3b0764;
+
+            border: none;
+            padding: 12px 28px;
+
+            font-family: 'Edu QLD Hand', cursive;
+            font-size: 22px;
+
+            cursor: pointer;
+
+            border-radius: 12px;
+
+            box-shadow: 0 7px #7e22ce;
+
+            transition:
+                background-color 0.2s,
+                transform 0.2s,
+                box-shadow 0.2s;
+        }
+
+        #button1:hover {
+            background-color: #a855f7;
+            color: white;
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 10px #6b21a8;
+        }
+
+        #button1:active {
+            background-color: #7c3aed;
+
+            transform: translateY(4px);
+
+            box-shadow: 0 3px #4c1d95;
+        }
+
+        /* NO */
+        #button2 {
+            background-color: #e9d5ff;
+            color: #6b21a8;
+
+            border: none;
+            padding: 5px 10px;
+
+            font-family: 'Edu QLD Hand', cursive;
+            font-size: 14px;
+
+            cursor: pointer;
+
+            border-radius: 8px;
+
+            box-shadow: 0 4px #9333ea;
+
+            transition: all 0.2s ease;
+        }
+
+        /* Make NO shrink */
+        #button2:hover {
+            background-color: #d8b4fe;
+            color: #581c87;
+
+            padding: 2px 4px;
+            font-size: 6px;
+
+            cursor: not-allowed;
+
+            opacity: 0.7;
+
+            box-shadow: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <p id="question">♡ will you go on a date with me? ♡</p>
+
+    <div class="buttons">
+        <button id="button1">yes</button>
+        <button id="button2">no</button>
+    </div>
+
+    <script>
+
+        let clicks = 0;
+
+        document.getElementById("button1").addEventListener("click", function() {
+
+            clicks++;
+
+            if (clicks === 1) {
+
+                document.getElementById("question").textContent =
+                    "♡ wait really? ♡";
+
+            }
+
+            else if (clicks === 2) {
+
+                document.getElementById("question").textContent =
+                    "♡ you actually said yes?! ♡";
+
+            }
+
+            else if (clicks === 3) {
+
+                window.location.href = "page2.html";
+
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
+
